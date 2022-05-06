@@ -18,16 +18,17 @@ const commentsRoute = ({ app }) => {
     res.send(comments);
   });
 
-  app.post("/comments", auth, async (req, res) => {
+  app.post("/addCommments/:post_id", auth, async (req, res) => {
     const {
-      body: { commentaire, userId, postId },
+      params: { post_id },
+      body: { commentaire, userId },
     } = req;
 
     try {
       const comment = await CommentModel.query().insertAndFetch({
         commentaire,
         user_id: Number(userId),
-        post_id: Number(postId),
+        post_id: Number(post_id),
       });
 
       res.send(comment);
